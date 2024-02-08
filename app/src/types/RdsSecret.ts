@@ -1,10 +1,10 @@
-export type DocumentSecret = {
+export type RdsSecret = {
   username: string;
 
   password: string;
 };
 
-export type DocumentParams = {
+export type RdsParams = {
   host: string;
 
   database: string;
