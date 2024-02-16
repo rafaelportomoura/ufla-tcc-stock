@@ -1,12 +1,11 @@
 import { StockRepository } from '../repositories/stock';
-import { Balance } from '../types/Balance';
-import { GetProductBalanceArgs } from '../types/GetProductBalance';
+import { Balance, GetBalanceArgs } from '../types/Balance';
 import { Stock } from '../types/Stock';
 
 export class GetBalance {
   private stock_repository: StockRepository;
 
-  constructor({ prisma }: GetProductBalanceArgs) {
+  constructor({ prisma }: GetBalanceArgs) {
     this.stock_repository = new StockRepository(prisma);
   }
 

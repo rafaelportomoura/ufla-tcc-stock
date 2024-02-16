@@ -3,6 +3,7 @@ import { PrismaStatic } from '../adapters/prisma';
 import { Validator } from '../adapters/validate';
 import { aws_params } from '../aws/config';
 import { CreateBatch } from '../business/createBatch';
+import { CODE_MESSAGES } from '../constants/codeMessages';
 import { CONFIGURATION } from '../constants/configuration';
 import { create_batch_schema } from '../schemas/addBatch';
 import { CreateBatchResponse } from '../types/CreateBatch';
@@ -14,7 +15,7 @@ export async function createBatch(req: FastifyRequest, res: FastifyReply): Promi
 
   const business = new CreateBatch({
     aws_params: aws_params(),
-    prisma: PrismaStatic.create(),
+    prisma: PrismaStatic.get(),
     logger,
     product_base_url: CONFIGURATION.PRODUCT_BASE_URL,
     event_bus: CONFIGURATION.EVENT_BUS
@@ -26,6 +27,7 @@ export async function createBatch(req: FastifyRequest, res: FastifyReply): Promi
 
   res.status(201);
   return {
+    ...CODE_MESSAGES.CREATED_BATCH,
     batch_id: id
   };
 }

@@ -23,6 +23,18 @@ export const CODE_MESSAGES = {
   },
   ERROR_CALLING_PRODUCT_API: {
     code: prefix(n++),
-    message: 'Error when call product api'
+    message: 'Error when call product api!'
+  },
+  NOT_ENOUGH_ITEMS: {
+    code: prefix(n++),
+    message: 'Not enough items!'
+  },
+  CREATED_BATCH: {
+    code: prefix(n++),
+    message: 'Successfully added batch to stock!'
+  },
+  RESERVED: {
+    code: prefix(n++),
+    message: 'Reserved!'
   }
 } as const;

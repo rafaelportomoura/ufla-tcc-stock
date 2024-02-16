@@ -12,7 +12,7 @@ export async function getBatchBalance(req: FastifyRequest, res: FastifyReply): P
   const { batch_id } = await Validator.validate(req.params, batch_id_schema);
 
   const business = new GetBalance({
-    prisma: PrismaStatic.create(),
+    prisma: PrismaStatic.get(),
     logger
   });
 

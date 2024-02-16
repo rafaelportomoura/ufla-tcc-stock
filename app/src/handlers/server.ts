@@ -2,9 +2,9 @@ import FastifyCors from '@fastify/cors';
 import { PrismaClient } from '@prisma/client';
 import Fastify from 'fastify';
 import qs from 'fastify-qs';
-import { RDS } from '../database/rds';
 
 import { logger_options } from '../adapters/logger';
+import { PrismaStatic } from '../adapters/prisma';
 import { aws_params } from '../aws/config';
 import { CONFIGURATION } from '../constants/configuration';
 import { HTTP_STATUS_CODE } from '../constants/httpStatus';
@@ -47,10 +47,6 @@ export async function main(prisma: PrismaClient) {
 
 if (CONFIGURATION.STAGE !== 'development')
   (async () => {
-    const rds = new RDS(aws_params());
-    const database_url = await rds.getDatabaseUrl();
-    const prisma = new PrismaClient({
-      datasources: { db: { url: database_url } }
-    });
+    const prisma = await PrismaStatic.create(aws_params());
     await main(prisma);
   })();

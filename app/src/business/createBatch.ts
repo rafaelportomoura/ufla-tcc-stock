@@ -5,7 +5,7 @@ import { BatchStockRepository } from '../repositories/batchStock';
 import { EventBus } from '../services/EventBus';
 import { Products } from '../services/Products';
 import { CreateBatchSchema } from '../types/Batch';
-import { CreateBatchStockResponse } from '../types/BatchStock';
+import { BatchWithStocks } from '../types/BatchStock';
 import { CreateBatchArgs } from '../types/CreateBatch';
 
 export class CreateBatch {
@@ -21,7 +21,7 @@ export class CreateBatch {
     this.event_bus = new EventBus(logger, event_bus, aws_params);
   }
 
-  async add(data: CreateBatchSchema): Promise<CreateBatchStockResponse> {
+  async add(data: CreateBatchSchema): Promise<BatchWithStocks> {
     const { product_id } = data;
 
     const has_product = await this.product_service.productExist(product_id);

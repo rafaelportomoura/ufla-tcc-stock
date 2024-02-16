@@ -4,7 +4,7 @@ export const EVENT = CONFIGURATION.MICROSERVICE;
 
 export const EVENT_TYPE = {
   CREATE: 'create',
-  EDIT: 'edit'
+  RESERVED: 'reserved'
 } as const;
 
 export const EVENT_STATUS = {

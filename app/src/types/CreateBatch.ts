@@ -1,5 +1,6 @@
 import { Batch, PrismaClient } from '@prisma/client';
 import { AwsParams } from './Aws';
+import { CodeMessage } from './CodeMessage';
 import { Logger } from './Logger';
 
 export type CreateBatchArgs = {
@@ -10,6 +11,6 @@ export type CreateBatchArgs = {
   event_bus: string;
 };
 
-export type CreateBatchResponse = {
+export type CreateBatchResponse = CodeMessage & {
   batch_id: Batch['id'];
 };
