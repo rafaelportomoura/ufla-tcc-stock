@@ -59,11 +59,11 @@
     "no-underscore-dangle": [
       2,
       {
-        "allow": ["_id", "__"]
+        "allow": ["_id", "__", "_count"]
       }
     ],
     "no-param-reassign": [
-      2,
+      0,
       {
         "props": false
       }

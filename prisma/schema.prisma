@@ -20,11 +20,13 @@ enum StockStatus {
 
 model Stock {
   id         Int         @id @default(autoincrement())
+  created_at DateTime    @default(now())
   updated_at DateTime    @updatedAt
   product_id String
   batch      Batch       @relation(fields: [batch_id], references: [id])
   batch_id   Int
   status     StockStatus @default(AVAILABLE)
+  order_id   String?
 
   @@index([product_id], type: Hash)
 }

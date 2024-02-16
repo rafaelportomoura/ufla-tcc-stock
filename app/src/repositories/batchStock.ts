@@ -1,6 +1,6 @@
 /* eslint-disable no-empty-function */
 import { PrismaClient } from '@prisma/client';
-import { Batch, CreateBatch } from '../types/Batch';
+import { Batch, CreateBatchSchema } from '../types/Batch';
 import { CreateBatchStockResponse } from '../types/BatchStock';
 import { CreateStock, Stock } from '../types/Stock';
 import { BatchRepository } from './batch';
@@ -9,10 +9,10 @@ import { StockRepository } from './stock';
 export class BatchStockRepository {
   constructor(private prisma: PrismaClient) {}
 
-  async create(data: CreateBatch): Promise<CreateBatchStockResponse> {
+  async create(data: CreateBatchSchema): Promise<CreateBatchStockResponse> {
     return this.prisma.$transaction(async (tx) => {
-      const batch_repository = new BatchRepository(tx.batch);
-      const stock_repository = new StockRepository(tx.stock);
+      const batch_repository = new BatchRepository(tx);
+      const stock_repository = new StockRepository(tx);
 
       const batch = await batch_repository.create(data);
 

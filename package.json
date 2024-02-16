@@ -34,6 +34,7 @@
     "@prisma/client": "^5.9.1",
     "@types/qs": "^6.9.11",
     "aws-lambda": "^1.0.7",
+    "axios": "^1.6.7",
     "fastify": "^4.25.2",
     "fastify-qs": "^4.0.2",
     "lodash": "^4.17.21",

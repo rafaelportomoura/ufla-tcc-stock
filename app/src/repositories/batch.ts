@@ -1,11 +1,16 @@
 import { Prisma } from '@prisma/client';
-import { Batch, CreateBatch } from '../types/Batch';
+import { Batch, CreateBatchSchema } from '../types/Batch';
+import { PrismaSubClient } from '../types/Prisma';
 /* eslint-disable no-empty-function */
 
 export class BatchRepository {
-  constructor(private client: Prisma.BatchDelegate) {}
+  private batch_delegate: Prisma.BatchDelegate;
 
-  async create(data: CreateBatch): Promise<Batch> {
-    return this.client.create({ data });
+  constructor(client: PrismaSubClient) {
+    this.batch_delegate = client.batch;
+  }
+
+  async create(data: CreateBatchSchema): Promise<Batch> {
+    return this.batch_delegate.create({ data });
   }
 }

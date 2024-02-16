@@ -17,8 +17,12 @@ export const CODE_MESSAGES = {
     code: prefix(n++),
     message: 'Validation Error!'
   },
-  NOT_FOUND_ERROR: {
+  PRODUCT_NOT_FOUND: {
     code: prefix(n++),
-    message: 'Not Found Error!'
+    message: 'Product not found!'
+  },
+  ERROR_CALLING_PRODUCT_API: {
+    code: prefix(n++),
+    message: 'Error when call product api'
   }
 } as const;
