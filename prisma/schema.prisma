@@ -26,7 +26,6 @@ model Stock {
   batch      Batch       @relation(fields: [batch_id], references: [id])
   batch_id   Int
   status     StockStatus @default(AVAILABLE)
-  order_id   String?
 
   @@index([product_id], type: Hash)
 }
