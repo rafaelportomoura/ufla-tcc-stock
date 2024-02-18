@@ -20,11 +20,12 @@
     "lint": "eslint --ext .ts . --max-warnings=0",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "dev": "tsx --watch --tsconfig tsconfig.json ./app/src/handlers/server.ts",
-    "build": "tsc -p tsconfig.json",
-    "prisma-generate": "prisma generate"
+    "local": "tsx --watch --tsconfig ./tsconfig.json ./local/server.ts",
+    "prisma-generate": "prisma generate",
+    "pre-build": "pnpm run prisma-generate",
+    "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "-": "^0.0.1",
     "@aws-sdk/client-secrets-manager": "^3.491.0",
     "@aws-sdk/client-sns": "^3.485.0",
     "@aws-sdk/client-sqs": "^3.499.0",

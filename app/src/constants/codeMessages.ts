@@ -1,3 +1,4 @@
+import { StockIdentifier } from '../types/Stock';
 import { CONFIGURATION } from './configuration';
 
 const prefix = (code: number) => `${CONFIGURATION.MICROSERVICE}-${String(code).padStart(4, '0')}`;
@@ -36,5 +37,15 @@ export const CODE_MESSAGES = {
   RESERVED: {
     code: prefix(n++),
     message: 'Reserved!'
-  }
+  },
+  ITEMS_ALREADY_BEEN_SOLD: (items: Array<StockIdentifier>) => ({
+    code: prefix(n++),
+    message: 'The following items have already been sold!',
+    items
+  }),
+  ITEMS_ARE_NOT_RESERVED: (items: Array<StockIdentifier>) => ({
+    code: prefix(n++),
+    message: 'The following items are not reserved!',
+    items
+  })
 } as const;
