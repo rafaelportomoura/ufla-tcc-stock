@@ -20,11 +20,11 @@ export async function reserve(req: FastifyRequest, res: FastifyReply): Promise<R
     event_bus: CONFIGURATION.EVENT_BUS
   });
 
-  const stock_ids = await business.reserve(body);
+  const reserves = await business.reserve(body);
 
   res.status(201);
   return {
     ...CODE_MESSAGES.RESERVED,
-    stock_ids
+    reserves
   };
 }

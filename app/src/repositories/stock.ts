@@ -1,9 +1,8 @@
-/* eslint-disable no-empty-function */
 import { Prisma, PrismaClient, StockStatus } from '@prisma/client';
-import { CODE_MESSAGES } from '../constants/codeMessages';
-import { ConflictError } from '../exceptions/ConflictError';
-import { Balance } from '../types/Balance';
-import { ReserveParams } from '../types/Reserve';
+import { Balance, ProductBalance } from '../types/Balance';
+/* eslint-disable no-empty-function */
+import { ReserveError } from '../exceptions/ReserveError';
+import { ReserveOutputs, ReserveParams } from '../types/Reserve';
 import { Stock, StockIdentifier } from '../types/Stock';
 
 export class StockRepository {
@@ -27,29 +26,50 @@ export class StockRepository {
     };
   }
 
-  async reserve({ product_id, quantity }: ReserveParams): Promise<Array<Stock['id']>> {
+  async reserve({ products }: ReserveParams): Promise<ReserveOutputs> {
     return this.client.$transaction(async (tx) => {
-      const stocks = await tx.stock.findMany({
-        select: { product_id: true, id: true },
-        where: { product_id, status: StockStatus.AVAILABLE },
-        take: quantity
-      });
+      const products_ids = Object.keys(products);
 
-      if (stocks.length < quantity) {
-        throw new ConflictError(CODE_MESSAGES.NOT_ENOUGH_ITEMS);
+      const stocks_promise = products_ids.map((product_id) =>
+        tx.stock.findMany({
+          select: { product_id: true, id: true },
+          where: { product_id, status: StockStatus.AVAILABLE },
+          take: products[product_id]
+        })
+      );
+
+      const stocks = await Promise.all(stocks_promise);
+
+      const products_stocks = products_ids.map((product_id, index) => ({
+        product_id,
+        stock_ids: stocks[index].map(({ id }) => id),
+        quantity: products[product_id]
+      }));
+
+      const products_in_fault = products_stocks.filter(({ stock_ids, quantity }) => stock_ids.length < quantity);
+
+      if (products_in_fault.length) {
+        throw new ReserveError(products_in_fault.map(({ product_id }) => product_id));
       }
 
-      const stock_ids = stocks.map((stock) => stock.id);
-      const response = await tx.stock.updateMany({
-        where: { id: { in: stock_ids }, status: StockStatus.AVAILABLE },
-        data: { status: StockStatus.RESERVED }
-      });
+      const reserve_promises = products_stocks.map(({ stock_ids }) =>
+        tx.stock.updateMany({
+          where: { id: { in: stock_ids }, status: StockStatus.AVAILABLE },
+          data: { status: StockStatus.RESERVED }
+        })
+      );
 
-      if (response.count < quantity) {
-        throw new ConflictError(CODE_MESSAGES.NOT_ENOUGH_ITEMS);
+      const reserves = await Promise.all(reserve_promises);
+
+      const when_reserve_products_in_fault = reserves.filter(
+        (reserve, index) => reserve.count < products_stocks[index].quantity
+      );
+
+      if (when_reserve_products_in_fault.length) {
+        throw new ReserveError(when_reserve_products_in_fault.map((_, index) => products_ids[index]));
       }
 
-      return stock_ids;
+      return products_stocks;
     });
   }
 
@@ -59,6 +79,50 @@ export class StockRepository {
 
   async returnToStock(stock_ids: Array<Stock['id']>): Promise<Array<StockIdentifier>> {
     return this.changeStatus(stock_ids, StockStatus.RESERVED, StockStatus.AVAILABLE);
+  }
+
+  async countDistinctProductIds(): Promise<number> {
+    const { length } = await this.stock_delegate.groupBy({
+      by: ['product_id'],
+      _count: {
+        product_id: true
+      }
+    });
+    return length;
+  }
+
+  async getBalanceGroupedByProducts(skip: number = 0, take: number = 10): Promise<Array<ProductBalance>> {
+    const stocks = await this.stock_delegate.findMany({
+      select: { product_id: true },
+      distinct: ['product_id'],
+      skip,
+      take
+    });
+
+    const grouped_by_status = await this.stock_delegate.groupBy({
+      by: ['product_id', 'status'],
+      _count: {
+        status: true
+      },
+      where: { product_id: { in: stocks.map(({ product_id }) => product_id) } }
+    });
+
+    const grouped_by_product_id = grouped_by_status.reduce(
+      (acc, { product_id, status, _count: { status: count } }) => {
+        if (!acc[product_id]) {
+          acc[product_id] = { available: 0, reserved: 0, sold: 0 };
+        }
+
+        const status_key = status.toLowerCase() as Lowercase<StockStatus>;
+
+        acc[product_id][status_key] = count;
+
+        return acc;
+      },
+      {} as Record<string, Balance>
+    );
+
+    return Object.entries(grouped_by_product_id).map(([product_id, balance]) => ({ product_id, ...balance }));
   }
 
   private async changeStatus(

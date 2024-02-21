@@ -1,8 +1,7 @@
 import { EVENT_STATUS, EVENT_TYPE } from '../constants/event';
 import { StockRepository } from '../repositories/stock';
 import { EventBus } from '../services/EventBus';
-import { ReserveArgs, ReserveParams } from '../types/Reserve';
-import { Stock } from '../types/Stock';
+import { ReserveArgs, ReserveOutputs, ReserveParams } from '../types/Reserve';
 
 export class ReserveStock {
   private stock_repository: StockRepository;
@@ -14,10 +13,10 @@ export class ReserveStock {
     this.event_bus = new EventBus(logger, event_bus, aws_params);
   }
 
-  async reserve({ product_id, quantity }: ReserveParams): Promise<Array<Stock['id']>> {
-    const ids = this.stock_repository.reserve({ product_id, quantity });
+  async reserve({ products }: ReserveParams): Promise<ReserveOutputs> {
+    const reserves = this.stock_repository.reserve({ products });
     const event_attributes = this.event_bus.messageAttributes(EVENT_TYPE.RESERVED, EVENT_STATUS.SUCCESS);
-    await this.event_bus.pub({ product_id, quantity, stocks: ids }, event_attributes);
-    return ids;
+    await this.event_bus.pub({ reserves }, event_attributes);
+    return reserves;
   }
 }

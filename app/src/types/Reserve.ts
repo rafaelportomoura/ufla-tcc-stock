@@ -15,6 +15,14 @@ export type ReserveArgs = {
 
 export type ReserveParams = z.infer<typeof reserve_schema>;
 
-export type ReserveResponse = CodeMessage & {
+export type ReserveOutput = {
+  product_id: string;
+  quantity: number;
   stock_ids: Array<Stock['id']>;
+};
+
+export type ReserveOutputs = Array<ReserveOutput>;
+
+export type ReserveResponse = CodeMessage & {
+  reserves: ReserveOutputs;
 };

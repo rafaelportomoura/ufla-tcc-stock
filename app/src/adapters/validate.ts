@@ -3,7 +3,7 @@ import { ZodType, z } from 'zod';
 import { ValidationError } from '../exceptions/ValidationError';
 
 export class Validator {
-  static async validate<T>(value_to_check: unknown, schema: ZodType<T>): Promise<z.infer<ZodType<T>>> {
+  static async validate<T extends ZodType>(value_to_check: unknown, schema: T): Promise<z.infer<typeof schema>> {
     const result = await schema.safeParseAsync(value_to_check);
 
     if (result.success) return result.data;

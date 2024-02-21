@@ -38,6 +38,10 @@ export const CODE_MESSAGES = {
     code: prefix(n++),
     message: 'Reserved!'
   },
+  INVALID_PAGE: {
+    code: prefix(n++),
+    message: 'Page out of range!'
+  },
   ITEMS_ALREADY_BEEN_SOLD: (items: Array<StockIdentifier>) => ({
     code: prefix(n++),
     message: 'The following items have already been sold!',
