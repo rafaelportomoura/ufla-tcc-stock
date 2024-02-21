@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient, StockStatus } from '@prisma/client';
 import { Balance, ProductBalance } from '../types/Balance';
+import { ListStockPagination } from '../types/ListStock';
 /* eslint-disable no-empty-function */
 import { ReserveError } from '../exceptions/ReserveError';
 import { ReserveOutputs, ReserveParams } from '../types/Reserve';
@@ -10,6 +11,10 @@ export class StockRepository {
 
   constructor(private client: PrismaClient) {
     this.stock_delegate = client.stock;
+  }
+
+  async listStock(where: Partial<Stock>, { skip, take }: ListStockPagination): Promise<Array<Stock>> {
+    return this.stock_delegate.findMany({ where, skip, take });
   }
 
   async getBalance(where: Partial<Stock>): Promise<Balance> {
@@ -89,6 +94,10 @@ export class StockRepository {
       }
     });
     return length;
+  }
+
+  async count(where: Prisma.StockWhereInput): Promise<number> {
+    return this.stock_delegate.count({ where });
   }
 
   async getBalanceGroupedByProducts(skip: number = 0, take: number = 10): Promise<Array<ProductBalance>> {

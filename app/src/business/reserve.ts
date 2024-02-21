@@ -14,7 +14,7 @@ export class ReserveStock {
   }
 
   async reserve({ products }: ReserveParams): Promise<ReserveOutputs> {
-    const reserves = this.stock_repository.reserve({ products });
+    const reserves = await this.stock_repository.reserve({ products });
     const event_attributes = this.event_bus.messageAttributes(EVENT_TYPE.RESERVED, EVENT_STATUS.SUCCESS);
     await this.event_bus.pub({ reserves }, event_attributes);
     return reserves;
