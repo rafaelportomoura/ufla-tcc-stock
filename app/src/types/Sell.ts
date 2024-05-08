@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+import { Logger } from '../adapters/logger';
 import { AwsParams } from './Aws';
-import { Logger } from './Logger';
 
 export type SellArgs = {
   aws_params: AwsParams;

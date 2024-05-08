@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
+import { Logger } from '../adapters/logger';
 import { list_balance_schema } from '../schemas/listBalance';
 import { ProductBalance } from './Balance';
-import { Logger } from './Logger';
 
 export type ListBalanceArgs = {
   prisma: PrismaClient;

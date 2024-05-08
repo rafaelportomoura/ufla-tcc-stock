@@ -1,8 +1,8 @@
 import { EVENT_STATUS, EVENT_TYPE } from '../constants/event';
 import { StockRepository } from '../repositories/stock';
+import { EventBus } from '../services/EventBus';
 import { SellArgs } from '../types/Sell';
 import { Stock } from '../types/Stock';
-import { EventBus } from './../services/EventBus';
 
 export class Sell {
   private stock_repository: StockRepository;

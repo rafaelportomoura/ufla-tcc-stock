@@ -13,6 +13,5 @@ export const CONFIGURATION = {
   PORT: set_number_env('PORT', 4000),
   EVENT_BUS: set_string_env('EVENT_BUS', ''),
   RDS_SECRET: set_string_env('RDS_SECRET', ''),
-  RDS_PARAMS: set_string_env('RDS_PARAMS', ''),
-  PRODUCT_BASE_URL: set_string_env('BASE_URL', 'http://localhost:3000/v1')
+  RDS_PARAMS: set_string_env('RDS_PARAMS', '')
 } as const;

@@ -1,7 +1,8 @@
 import { FastifyBaseLogger } from 'fastify';
+import { StatusCodes } from 'http-status-codes';
 import { Api } from '../adapters/api';
 import { CODE_MESSAGES } from '../constants/codeMessages';
-import { HTTP_STATUS_CODE } from '../constants/httpStatus';
+
 import { PRODUCT_EXIST_STATUS } from '../constants/productStatus';
 import { InternalServerError } from '../exceptions/InternalServerError';
 import { NotFoundError } from '../exceptions/NotFoundError';
@@ -23,8 +24,7 @@ export class Products {
       return product;
     } catch (error) {
       this.logger.error(error, 'Products.get');
-      if (error.response.status === HTTP_STATUS_CODE.NOT_FOUND)
-        throw new NotFoundError(CODE_MESSAGES.PRODUCT_NOT_FOUND);
+      if (error.response.status === StatusCodes.NOT_FOUND) throw new NotFoundError(CODE_MESSAGES.PRODUCT_NOT_FOUND);
 
       throw new InternalServerError(CODE_MESSAGES.ERROR_CALLING_PRODUCT_API);
     }

@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
+import { Logger } from '../adapters/logger';
 import { list_stock_query } from '../schemas/listStock';
-import { Logger } from './Logger';
 import { Stock } from './Stock';
 
 export type ListStockArgs = {

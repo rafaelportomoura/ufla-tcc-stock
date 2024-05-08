@@ -1,7 +1,7 @@
 import { Batch, PrismaClient } from '@prisma/client';
+import { Logger } from '../adapters/logger';
 import { AwsParams } from './Aws';
 import { CodeMessage } from './CodeMessage';
-import { Logger } from './Logger';
 
 export type CreateBatchArgs = {
   aws_params: AwsParams;

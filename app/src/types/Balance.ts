@@ -1,5 +1,5 @@
 import { PrismaClient, StockStatus } from '@prisma/client';
-import { Logger } from './Logger';
+import { Logger } from '../adapters/logger';
 
 export type Balance = {
   [key in Lowercase<StockStatus>]: number;

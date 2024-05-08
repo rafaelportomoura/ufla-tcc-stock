@@ -51,5 +51,9 @@ export const CODE_MESSAGES = {
     code: prefix(n++),
     message: 'The following items are not reserved!',
     items
-  })
+  }),
+  UNAUTHORIZED: {
+    code: prefix(n++),
+    message: 'Unauthorized!'
+  }
 } as const;

@@ -21,10 +21,10 @@ export class RDS {
     const params = await this.ssm.getParams<RdsParams>(CONFIGURATION.RDS_PARAMS);
 
     const { username, password } = secrets;
-    const { protocol, host, database, options } = params;
+    const { protocol, host, options } = params;
 
     const query = !isEmpty(options) ? `?${qs.stringify(options)}` : '';
 
-    return `${protocol}://${username}:${password}@${host}/${database}${query}`;
+    return `${protocol}://${username}:${password}@${host}/${CONFIGURATION.MICROSERVICE}${query}`;
   }
 }

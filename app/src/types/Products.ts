@@ -1,5 +1,5 @@
+import { Logger } from '../adapters/logger';
 import { PRODUCT_STATUS_MAP } from '../constants/productStatus';
-import { Logger } from './Logger';
 
 export type ProductsArgs = {
   base_url: string;
