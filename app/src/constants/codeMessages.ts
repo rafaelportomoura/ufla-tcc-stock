@@ -55,5 +55,9 @@ export const CODE_MESSAGES = {
   UNAUTHORIZED: {
     code: prefix(n++),
     message: 'Unauthorized!'
+  },
+  FORBIDDEN: {
+    code: prefix(n++),
+    message: "User can't access this resource!"
   }
 } as const;
