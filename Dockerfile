@@ -5,9 +5,9 @@ ADD ["./tsconfig.json", "tsconfig.json"]
 ADD ["./dist", "dist"]
 ADD ["./prisma", "prisma"]
 RUN sed -i '/"prepare": "husky install",/d' package.json
-RUN npm install -g pnpm --loglevel=error
+RUN npm install -g pnpm prisma@5.9.1 --loglevel=error
 RUN pnpm install --prod --loglevel=error
-RUN pnpm prisma generate
+RUN pnpx prisma generate
 RUN find ./node_modules -mtime +10950 -exec touch {} +
 
 RUN chmod 777 dist

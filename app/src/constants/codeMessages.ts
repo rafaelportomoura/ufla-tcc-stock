@@ -10,6 +10,10 @@ export const CODE_MESSAGES = {
     code: prefix(n++),
     message: 'Internal Server Error!'
   },
+  FAILED_CREATE_DATABASE: {
+    code: prefix(n++),
+    message: 'Failed to create database!'
+  },
   CANNOT_ACCESS_DATABASE: {
     code: prefix(n++),
     message: 'Cannot access database!'
