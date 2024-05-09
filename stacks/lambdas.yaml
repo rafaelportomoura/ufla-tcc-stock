@@ -29,8 +29,8 @@ Globals:
                 ACCOUNT_NUMBER: !Ref AWS::AccountId
                 MICROSERVICE: !Ref Microservice
                 EVENT_BUS: { "Fn::ImportValue": !Sub "${Stage}-${Tenant}-event-bus" }
-                RDS_SECRET: { "Fn::ImportValue": !Sub "${Stage}-${Tenant}-${Microservice}-document-db-secret" }
-                RDS_PARAMS: { "Fn::ImportValue": !Sub "${Stage}-${Tenant}-${Microservice}-document-db-parameter" }
+                RDS_SECRET: !Sub "${Stage}-${Tenant}-rds-secret"
+                RDS_PARAMS: !Sub "${Stage}-${Tenant}-rds-parameter"
                 LOG_LEVEL: !Ref LogLevel
 
 Resources:
