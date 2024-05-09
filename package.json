@@ -21,8 +21,7 @@
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "dev": "tsx --watch --tsconfig tsconfig.json ./app/src/handlers/server.ts",
     "local": "tsx --watch --tsconfig ./tsconfig.json ./local/server.ts",
-    "prisma-generate": "prisma generate",
-    "pre-build": "npm run prisma-generate",
+    "pre-build": "prisma generate",
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
