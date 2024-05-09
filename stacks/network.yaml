@@ -89,7 +89,7 @@ Resources:
         Type: AWS::ApiGatewayV2::Route
         Properties:
             ApiId: !Ref Api
-            RouteKey: GER /balance/product/{product_id}
+            RouteKey: GET /balance/product/{product_id}
             Target: !Sub integrations/${Integration}
             AuthorizationType: NONE
 
