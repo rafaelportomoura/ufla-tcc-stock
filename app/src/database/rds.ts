@@ -25,6 +25,6 @@ export class RDS {
 
     const query = !isEmpty(options) ? `?${qs.stringify(options)}` : '';
 
-    return `${protocol}://${username}:${password}@${host}/${CONFIGURATION.MICROSERVICE}${query}`;
+    return `${protocol}://${username}:${encodeURIComponent(password)}@${host}/${CONFIGURATION.MICROSERVICE}${query}`;
   }
 }
