@@ -28,7 +28,7 @@ export async function main(prisma: PrismaClient) {
 
   server.get('/health-check', (_, res) => res.status(StatusCodes.OK).send('alive'));
 
-  server.register(router, { prefix: '/v1' });
+  server.register(router);
 
   server.listen(
     {
