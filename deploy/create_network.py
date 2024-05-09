@@ -56,7 +56,7 @@ NETWORK_STACK = network.stack(
     domain_name=DOMAIN_NAME,
 )
 
-typescript.build()
+typescript.build(dev_install="pnpm install --silent", pre_build="pnpm run pre-build")
 typescript.lambda_packages()
 cloudformation.package_and_deploy_stack(stack=NETWORK_STACK, output="stacks/output.yaml")
 

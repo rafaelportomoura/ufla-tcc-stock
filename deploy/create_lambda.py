@@ -43,7 +43,7 @@ LAMBDAS_STACK = lambdas.stack(
     log_level=args["log_level_compute"]
 )
 
-typescript.build()
+typescript.build(dev_install="pnpm install --silent", pre_build="pnpm run pre-build")
 typescript.lambda_packages()
 cloudformation.package_and_deploy_stack(stack=LAMBDAS_STACK, output="stacks/output.yaml")
 
