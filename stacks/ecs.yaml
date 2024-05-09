@@ -218,9 +218,9 @@ Resources:
                   - Name: MICROSERVICE
                     Value: !Ref Microservice
                   - Name: RDS_SECRET
-                    Value: !Sub ${Stage}-${Tenant}-document-db
+                    Value: !Sub ${Stage}-${Tenant}-rds
                   - Name: RDS_PARAMS
-                    Value: !Sub ${Stage}-${Tenant}-document-db
+                    Value: !Sub ${Stage}-${Tenant}-rds
                   - Name: EVENT_BUS
                     Value: { "Fn::ImportValue": !Sub "${Stage}-${Tenant}-event-bus" }
                 Image: !Sub 
