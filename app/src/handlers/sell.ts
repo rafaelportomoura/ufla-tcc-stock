@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { SQSEvent } from 'aws-lambda';
+import { SNSEventRecord, SQSEvent } from 'aws-lambda';
 import { Logger } from '../adapters/logger';
 import { PrismaStatic } from '../adapters/prisma';
 import { Validator } from '../adapters/validate';
@@ -11,16 +11,16 @@ import { sqs_request_id } from '../utils/sqs_id';
 
 export async function sell(event: SQSEvent): Promise<void> {
   const prisma = await PrismaStatic.create(aws_params());
-  const logger = new Logger(CONFIGURATION.LOG_LEVEL, sqs_request_id(event.Records[0]));
+  const record = event.Records[0];
+  const logger = new Logger(CONFIGURATION.LOG_LEVEL, sqs_request_id(record));
   try {
     await prisma.$connect();
-    const { Records } = event;
     const business = new Sell({ prisma, logger, event_bus: CONFIGURATION.EVENT_BUS, aws_params: aws_params() });
-    for (const record of Records) {
-      const { stock_ids } = await Validator.validate(JSON.parse(record.body), sell_schema);
+    let body = JSON.parse(record.body);
+    if ((body as SNSEventRecord['Sns']).TopicArn) body = JSON.parse(body.Message);
+    const { stock_ids } = await Validator.validate(JSON.parse(body), sell_schema);
 
-      await business.sell(stock_ids);
-    }
+    await business.sell(stock_ids);
   } catch (error) {
     logger.error(error, 'Handler');
     throw error;

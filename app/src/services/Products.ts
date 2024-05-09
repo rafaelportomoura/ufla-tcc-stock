@@ -1,8 +1,8 @@
-import { FastifyBaseLogger } from 'fastify';
 import { StatusCodes } from 'http-status-codes';
 import { Api } from '../adapters/api';
 import { CODE_MESSAGES } from '../constants/codeMessages';
 
+import { Logger } from '../adapters/logger';
 import { PRODUCT_EXIST_STATUS } from '../constants/productStatus';
 import { InternalServerError } from '../exceptions/InternalServerError';
 import { NotFoundError } from '../exceptions/NotFoundError';
@@ -11,7 +11,7 @@ import { Product, ProductsArgs, ProjectProduct } from '../types/Products';
 export class Products {
   private api: Api;
 
-  private logger: FastifyBaseLogger;
+  private logger: Logger;
 
   constructor({ base_url, logger }: ProductsArgs) {
     this.logger = logger;

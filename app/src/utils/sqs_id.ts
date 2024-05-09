@@ -1,7 +1,13 @@
 /* eslint-disable snakecasejs/snakecasejs */
 /* eslint-disable import/no-extraneous-dependencies */
 
-import { SQSRecord } from 'aws-lambda';
+import { SNSEventRecord, SQSRecord } from 'aws-lambda';
 
-export const sqs_request_id = ({ attributes, messageId }: SQSRecord): string =>
-  attributes?.MessageDeduplicationId ?? messageId;
+export const sqs_request_id = ({ attributes, messageId, body }: SQSRecord): string => {
+  try {
+    const { MessageId } = JSON.parse(body) as SNSEventRecord['Sns'];
+    return MessageId;
+  } catch (error) {
+    return attributes?.MessageDeduplicationId ?? messageId;
+  }
+};

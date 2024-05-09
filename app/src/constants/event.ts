@@ -13,7 +13,3 @@ export const EVENT_STATUS = {
   SUCCESS: 'success',
   ERROR: 'error'
 } as const;
-
-export const EVENT_NOTIFICATION = {
-  EMAIL: 'email'
-} as const;
