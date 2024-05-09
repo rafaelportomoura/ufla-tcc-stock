@@ -67,55 +67,54 @@ Resources:
                 append:header.stage: !Ref Stage
                 append:header.tenant: !Ref Tenant
 
-    CreateProductRoute:
+    CreateBatchRoute:
         Type: AWS::ApiGatewayV2::Route
         Properties:
             ApiId: !Ref Api
-            RouteKey: POST /
+            RouteKey: POST /batch
             Target: !Sub integrations/${Integration}
             AuthorizationType: CUSTOM
             AuthorizerId: !Ref Authorizer
 
-    EditProductRoute:
+    ReserveRoute:
         Type: AWS::ApiGatewayV2::Route
         Properties:
             ApiId: !Ref Api
-            RouteKey: PUT /{product_id}
+            RouteKey: POST /reserve
             Target: !Sub integrations/${Integration}
             AuthorizationType: CUSTOM
             AuthorizerId: !Ref Authorizer
 
-    AddImageRoute:
+    GetProductBalanceRoute:
         Type: AWS::ApiGatewayV2::Route
         Properties:
             ApiId: !Ref Api
-            RouteKey: POST /{product_id}/image
+            RouteKey: GER /balance/product/{product_id}
             Target: !Sub integrations/${Integration}
-            AuthorizationType: CUSTOM
-            AuthorizerId: !Ref Authorizer
+            AuthorizationType: NONE
 
-    RemoveImageRoute:
+    GetBatchBalanceRoute:
         Type: AWS::ApiGatewayV2::Route
         Properties:
             ApiId: !Ref Api
-            RouteKey: DELETE /{product_id}/image/{image_id}
+            RouteKey: GET /balance/batch/{batch_id}
             Target: !Sub integrations/${Integration}
-            AuthorizationType: CUSTOM
-            AuthorizerId: !Ref Authorizer
+            AuthorizationType: NONE
 
-    ListProductsRoute:
+
+    ListBalanceRoute:
+        Type: AWS::ApiGatewayV2::Route
+        Properties:
+            ApiId: !Ref Api
+            RouteKey: GET /balance
+            Target: !Sub integrations/${Integration}
+            AuthorizationType: NONE
+
+    ListStockRoute:
         Type: AWS::ApiGatewayV2::Route
         Properties:
             ApiId: !Ref Api
             RouteKey: GET /
-            Target: !Sub integrations/${Integration}
-            AuthorizationType: NONE
-
-    GetProductRoute:
-        Type: AWS::ApiGatewayV2::Route
-        Properties:
-            ApiId: !Ref Api
-            RouteKey: GET /{product_id}
             Target: !Sub integrations/${Integration}
             AuthorizationType: NONE
 
