@@ -134,5 +134,4 @@ pnpm-lock.*
 
 local
 
-migrations
 deploy/scripts

@@ -19,8 +19,8 @@
     "prepare": "husky install",
     "lint": "eslint --ext .ts . --max-warnings=0",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "dev": "tsx --watch --tsconfig tsconfig.json ./app/src/handlers/server.ts",
-    "local": "tsx --watch --tsconfig ./tsconfig.json ./local/server.ts",
+    "local": "cross-env NODE_ENV=development tsx --watch --tsconfig ./tsconfig.json ./local/server.ts",
+    "container": "pnpx prisma migrate deploy && node dist/handlers/server.js",
     "pre-build": "prisma generate",
     "build": "tsc -p tsconfig.json"
   },
