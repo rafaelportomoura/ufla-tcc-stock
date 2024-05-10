@@ -31,6 +31,7 @@ export class RDS {
 
     const uri = `${username}:${encodeURIComponent(password)}@${host}`;
     const database = CONFIGURATION.MICROSERVICE;
+    console.log(CONFIGURATION.CREATE_DATABASE, process.env.CREATE_DATABASE);
     if (CONFIGURATION.CREATE_DATABASE) await this.createDatabase(username, password, host, database);
 
     return `${protocol}://${uri}/${database}${query}`;
