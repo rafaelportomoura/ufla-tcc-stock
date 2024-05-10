@@ -232,7 +232,7 @@ Resources:
                     LogDriver: awslogs
                     Options:
                         awslogs-group: !Ref LogGroup
-                        awslogs-stream-prefix: !Sub ${Stage}-${Tenant}-${Microservice}-http
+                        awslogs-stream-prefix: container
                         awslogs-region: !Ref AWS::Region
                 Essential: true
               - Name: envoy
