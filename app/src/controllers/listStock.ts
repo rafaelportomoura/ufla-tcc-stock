@@ -18,7 +18,7 @@ export async function listStock(req: FastifyRequest, res: FastifyReply): Promise
     const query = await Validator.validate(decodeObject(req.query), list_stock_query);
 
     const balance = new ListStock({
-      prisma: PrismaStatic.get(),
+      prisma: PrismaStatic.create(),
       logger
     });
 

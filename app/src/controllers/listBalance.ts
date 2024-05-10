@@ -18,7 +18,7 @@ export async function listBalance(req: FastifyRequest, res: FastifyReply): Promi
     const query = await Validator.validate(decodeObject(req.query), list_balance_schema);
 
     const balance = new ListBalance({
-      prisma: PrismaStatic.get(),
+      prisma: PrismaStatic.create(),
       logger
     });
 

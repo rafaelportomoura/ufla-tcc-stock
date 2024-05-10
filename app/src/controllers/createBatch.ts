@@ -21,7 +21,7 @@ export async function createBatch(req: FastifyRequest, res: FastifyReply): Promi
 
     const business = new CreateBatch({
       aws_params: aws_params(),
-      prisma: PrismaStatic.get(),
+      prisma: PrismaStatic.create(),
       logger,
       product_base_url: URLS(CONFIGURATION).PRODUCTS,
       event_bus: CONFIGURATION.EVENT_BUS

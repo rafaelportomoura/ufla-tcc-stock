@@ -19,7 +19,7 @@ export async function reserve(req: FastifyRequest, res: FastifyReply): Promise<R
 
     const business = new ReserveStock({
       aws_params: aws_params(),
-      prisma: PrismaStatic.get(),
+      prisma: PrismaStatic.create(),
       logger,
       event_bus: CONFIGURATION.EVENT_BUS
     });

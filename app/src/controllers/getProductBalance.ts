@@ -17,7 +17,7 @@ export async function getProductBalance(req: FastifyRequest, res: FastifyReply):
     const { product_id } = await Validator.validate(req.params, product_id_schema);
 
     const business = new GetBalance({
-      prisma: PrismaStatic.get(),
+      prisma: PrismaStatic.create(),
       logger
     });
 
