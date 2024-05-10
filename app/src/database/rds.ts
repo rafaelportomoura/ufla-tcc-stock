@@ -32,7 +32,7 @@ export class RDS {
     const uri = `${username}:${encodeURIComponent(password)}@${host}`;
     const database = CONFIGURATION.MICROSERVICE;
 
-    return `${protocol}://${uri}:${port}/${database}${query}`;
+    return `${protocol}://${uri}/${database}${query}`;
   }
 
   async createDatabase() {
@@ -47,7 +47,7 @@ export class RDS {
       console.log('🔧 Connecting to rds:', host);
       await client.connect();
       console.log('🔧 Creating database:', database);
-      await client.query(`CREATE DATABASE ${database} IF NOT EXISTS ${database}`);
+      await client.query(`CREATE DATABASE '${database}' IF NOT EXISTS '${database}'`);
     } catch (err) {
       console.error('❌ Failed to create database:', err.message);
       throw new DatabaseError(CODE_MESSAGES.FAILED_CREATE_DATABASE);
