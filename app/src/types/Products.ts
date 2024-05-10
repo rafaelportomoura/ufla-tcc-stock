@@ -1,5 +1,4 @@
 import { Logger } from '../adapters/logger';
-import { PRODUCT_STATUS_MAP } from '../constants/productStatus';
 
 export type ProductsArgs = {
   base_url: string;
@@ -12,7 +11,6 @@ export type Product = {
   price: number;
   created_at: Date;
   updated_at: Date;
-  status: (typeof PRODUCT_STATUS_MAP)[keyof typeof PRODUCT_STATUS_MAP];
   images: Array<string>;
 };
 

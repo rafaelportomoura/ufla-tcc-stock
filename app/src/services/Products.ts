@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
+import { isEmpty } from 'lodash';
 import { Api } from '../adapters/api';
 import { CODE_MESSAGES } from '../constants/codeMessages';
 
 import { Logger } from '../adapters/logger';
-import { PRODUCT_EXIST_STATUS } from '../constants/productStatus';
 import { InternalServerError } from '../exceptions/InternalServerError';
 import { NotFoundError } from '../exceptions/NotFoundError';
 import { Product, ProductsArgs, ProjectProduct } from '../types/Products';
@@ -33,7 +33,7 @@ export class Products {
   async productExist(product_id: Product['_id']): Promise<boolean> {
     try {
       const product = await this.get(product_id, { _id: 1 });
-      return PRODUCT_EXIST_STATUS.includes(product.status as (typeof PRODUCT_EXIST_STATUS)[number]);
+      return !isEmpty(product);
     } catch (error) {
       if (error instanceof NotFoundError) return false;
       throw error;
