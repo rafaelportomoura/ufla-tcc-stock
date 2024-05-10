@@ -2,16 +2,17 @@ FROM node:20-alpine3.18
 
 ADD ["./package.json", "package.json"]
 ADD ["./tsconfig.json", "tsconfig.json"]
-ADD ["./dist", "dist"]
-ADD ["./prisma", "prisma"]
 RUN sed -i '/"prepare": "husky install",/d' package.json
 RUN npm install -g pnpm prisma@5.9.1 --loglevel=error
 RUN pnpm install --prod --loglevel=error
-RUN pnpx prisma generate
 RUN find ./node_modules -mtime +10950 -exec touch {} +
 
+ADD ["./prisma", "prisma"]
+RUN pnpx prisma generate
+
+ADD ["./dist", "dist"]
 RUN chmod 777 dist
 RUN chmod 777 dist/*
 RUN chmod 777 package.json
 
-CMD [ "prisma/migrate.sh" ]
+CMD [ "/bin/bash", "prisma/migrate.sh" ]
