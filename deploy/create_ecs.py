@@ -37,13 +37,15 @@ exports = cloudformation.list_exports()
 target = cloudformation.get_export_value(
     exports=exports, name=f"{stage}-{tenant}-{microservice}-target-group-arn"
 )
-
-stack = cloudformation.describe(stack_name=ecs.my_stack_name(stage=stage, tenant=tenant))
-has_stacks = "Stacks" in stack
 create_database = 'false'
-if not has_stacks or len(stack["Stacks"]) == 0:
+try:
+    stack = cloudformation.describe(stack_name=ecs.my_stack_name(stage=stage, tenant=tenant))
+    has_stacks = "Stacks" in stack
+    if not has_stacks or len(stack["Stacks"]) == 0:
+        create_database = 'true'
+except:
     create_database = 'true'
-    
+
 ECS_STACK = ecs.stack(
     stage=stage,
     tenant=tenant,
