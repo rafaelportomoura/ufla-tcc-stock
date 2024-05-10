@@ -6,7 +6,7 @@ export type RdsSecret = {
 
 export type RdsParams = {
   host: string;
-
+  port: number;
   protocol: string;
 
   options?: Record<string, string>;

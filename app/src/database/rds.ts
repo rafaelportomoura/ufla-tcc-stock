@@ -25,14 +25,14 @@ export class RDS {
     const params = await this.ssm.getParams<RdsParams>(CONFIGURATION.RDS_PARAMS);
 
     const { username, password } = secrets;
-    const { protocol, host, options } = params;
+    const { protocol, host, port, options } = params;
 
     const query = !isEmpty(options) ? `?${qs.stringify(options)}` : '';
 
     const uri = `${username}:${encodeURIComponent(password)}@${host}`;
     const database = CONFIGURATION.MICROSERVICE;
 
-    return `${protocol}://${uri}/${database}${query}`;
+    return `${protocol}://${uri}:${port}/${database}${query}`;
   }
 
   async createDatabase() {
