@@ -32,10 +32,10 @@ Globals:
                 DATABASE_URL: 
                       Fn::Sub: 
                       - ${protocol}://${username}:${password}@${host}/${database}
-                      - protocol: !Sub '{{resolve:ssm:${Stage}-${Tenant}-rds:SecretString:protocol}}'
+                      - protocol: !Sub '{{resolve:ssm:${Stage}-${Tenant}-rds:protocol}}'
                         username: !Sub '{{resolve:secretsmanager:${Stage}-${Tenant}-rds:SecretString:username}}'
                         password: !Sub '{{resolve:secretsmanager:${Stage}-${Tenant}-rds:SecretString:password}}'
-                        host: !Sub '{{resolve:ssm:${Stage}-${Tenant}-rds:SecretString:host}}'
+                        host: !Sub '{{resolve:ssm:${Stage}-${Tenant}-rds:host}}'
                         database: !Ref Microservice
                 LOG_LEVEL: !Ref LogLevel
 
