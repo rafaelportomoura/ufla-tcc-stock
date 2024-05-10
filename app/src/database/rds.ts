@@ -29,11 +29,11 @@ export class RDS {
 
     const query = !isEmpty(options) ? `?${qs.stringify(options)}` : '';
 
-    const uri = `${protocol}://${username}:${encodeURIComponent(password)}@${host}`;
+    const uri = `${username}:${encodeURIComponent(password)}@${host}`;
     const database = CONFIGURATION.MICROSERVICE;
     await this.createDatabase(uri, database);
 
-    return `${uri}/${database}${query}`;
+    return `${protocol}://${uri}/${database}${query}`;
   }
 
   async createDatabase(uri: string, database: string) {
