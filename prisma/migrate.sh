@@ -1,8 +1,8 @@
 #!/bin/sh
 
-echo "CREATE_DATABSE: $CREATE_DATABASE"
+echo "MIGRATE_DATABASE: $MIGRATE_DATABASE"
 
-if [ "$CREATE_DATABASE" = "true" ]; then
+if [ "$MIGRATE_DATABASE" = "true" ]; then
   pnpx prisma migrate dev
 fi
 

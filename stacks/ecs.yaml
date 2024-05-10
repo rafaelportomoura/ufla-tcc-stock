@@ -41,7 +41,7 @@ Parameters:
     ImageTag: 
         Type: String
         Default: latest
-    CreateDatabase:
+    MigrateDatabase:
         Type: String
         Default: false
         AllowedValues:
@@ -224,14 +224,19 @@ Resources:
                     Value: !Ref LogLevel
                   - Name: MICROSERVICE
                     Value: !Ref Microservice
-                  - Name: RDS_SECRET
-                    Value: !Sub ${Stage}-${Tenant}-rds
-                  - Name: RDS_PARAMS
-                    Value: !Sub ${Stage}-${Tenant}-rds
+                  - Name: DATABASE_URL
+                    Value: 
+                      Fn::Sub: 
+                      - ${protocol}://${username}:${password}@${host}/${database}
+                      - protocol: !Sub '{{resolve:secretsmanager:${Stage}-${Tenant}-rds:SecretString:protocol}}'
+                        username: !Sub '{{resolve:secretsmanager:${Stage}-${Tenant}-rds:SecretString:username}}'
+                        password: !Sub '{{resolve:secretsmanager:${Stage}-${Tenant}-rds:SecretString:password}}'
+                        host: !Sub '{{resolve:secretsmanager:${Stage}-${Tenant}-rds:SecretString:host}}'
+                        database: !Ref Microservice
                   - Name: EVENT_BUS
                     Value: { "Fn::ImportValue": !Sub "${Stage}-${Tenant}-event-bus" }
-                  - Name: CREATE_DATABASE
-                    Value: !Ref CreateDatabase
+                  - Name: MIGRATE_DATABASE
+                    Value: !Ref MigrateDatabase
                 Image: !Sub 
                   - "${uri}:${tag}"
                   - uri: {"Fn::ImportValue": !Sub "${Stage}-${Tenant}-${Microservice}-ecr-repository-uri"}

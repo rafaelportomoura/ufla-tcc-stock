@@ -5,8 +5,6 @@ import Fastify from 'fastify';
 import qs from 'fastify-qs';
 
 import { StatusCodes } from 'http-status-codes';
-import { PrismaStatic } from '../adapters/prisma';
-import { aws_params } from '../aws/config';
 import { CONFIGURATION } from '../constants/configuration';
 
 import { router } from '../routes';
@@ -48,6 +46,6 @@ export async function main(prisma: PrismaClient) {
 
 if (CONFIGURATION.STAGE !== 'development')
   (async () => {
-    const prisma = await PrismaStatic.create(aws_params());
+    const prisma = new PrismaClient();
     await main(prisma);
   })();

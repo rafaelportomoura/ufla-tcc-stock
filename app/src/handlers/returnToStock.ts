@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import { PrismaClient } from '@prisma/client';
 import { SNSEventRecord, SQSEvent } from 'aws-lambda';
 import { Logger } from '../adapters/logger';
-import { PrismaStatic } from '../adapters/prisma';
 import { Validator } from '../adapters/validate';
 import { aws_params } from '../aws/config';
 import { ReturnToStock } from '../business/returnToStock';
@@ -10,7 +10,7 @@ import { return_to_stock } from '../schemas/returnToStock';
 import { sqs_request_id } from '../utils/sqs_id';
 
 export async function returnToStock(event: SQSEvent): Promise<void> {
-  const prisma = await PrismaStatic.create(aws_params());
+  const prisma = new PrismaClient();
   const record = event.Records[0];
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, sqs_request_id(record));
   try {
