@@ -8,7 +8,8 @@ RUN pnpm install --prod --loglevel=error
 RUN find ./node_modules -mtime +10950 -exec touch {} +
 
 ADD ["./prisma", "prisma"]
-RUN pnpx prisma generate
+RUN pnpm install prisma@5.9.1
+RUN pnpm prisma generate
 
 ADD ["./dist", "dist"]
 RUN chmod 777 dist
