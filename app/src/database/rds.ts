@@ -39,10 +39,12 @@ export class RDS {
   async createDatabase(uri: string, database: string) {
     const client = new Client({ connectionString: uri });
     try {
+      console.log('🔧 Connecting to database:', uri);
       await client.connect();
+      console.log('🔧 Creating database:', database);
       await client.query(`CREATE DATABASE ${database} IF NOT EXISTS ${database}`);
     } catch (err) {
-      console.error('❌ Failed to create database', err.message);
+      console.error('❌ Failed to create database:', err.message);
       throw new DatabaseError(CODE_MESSAGES.FAILED_CREATE_DATABASE);
     } finally {
       await client.end();
