@@ -16,7 +16,8 @@ def stack(
     scale_out_cooldown: int,
     scale_in_cooldown: int,
     cpu_utilization: int,
-    target_group: str
+    target_group: str,
+    create_database: str,
     ) -> Stack:
     return Stack(
         template=path("stacks", "ecs.yaml"),
@@ -31,6 +32,7 @@ def stack(
             "ScaleOutCooldown": scale_out_cooldown,
             "ScaleInCooldown": scale_in_cooldown,
             "CPUUtilization": cpu_utilization,
-            "TargetGroupArn": target_group
+            "TargetGroupArn": target_group,
+            "CreateDatabase": create_database,
         },
     )

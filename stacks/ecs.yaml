@@ -41,6 +41,12 @@ Parameters:
     ImageTag: 
         Type: String
         Default: latest
+    CreateDatabase:
+        Type: String
+        Default: false
+        AllowedValues:
+            - true
+            - false
     
 
 Conditions:
@@ -224,6 +230,8 @@ Resources:
                     Value: !Sub ${Stage}-${Tenant}-rds
                   - Name: EVENT_BUS
                     Value: { "Fn::ImportValue": !Sub "${Stage}-${Tenant}-event-bus" }
+                  - Name: CREATE_DATABASE
+                    Value: !Ref CreateDatabase
                 Image: !Sub 
                   - "${uri}:${tag}"
                   - uri: {"Fn::ImportValue": !Sub "${Stage}-${Tenant}-${Microservice}-ecr-repository-uri"}

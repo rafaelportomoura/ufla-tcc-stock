@@ -38,6 +38,12 @@ target = cloudformation.get_export_value(
     exports=exports, name=f"{stage}-{tenant}-{microservice}-target-group-arn"
 )
 
+stack = cloudformation.describe(stack_name=ecs.my_stack_name(stage=stage, tenant=tenant))
+has_stacks = "Stacks" in stack
+create_database = 'false'
+if not has_stacks or len(stack["Stacks"]) == 0:
+    create_database = 'true'
+    
 ECS_STACK = ecs.stack(
     stage=stage,
     tenant=tenant,
@@ -48,7 +54,8 @@ ECS_STACK = ecs.stack(
     scale_out_cooldown=args["scale_out_cooldown"],
     scale_in_cooldown=args["scale_in_cooldown"],
     cpu_utilization=args["cpu_utilization"],
-    target_group=target
+    target_group=target,
+    create_database=create_database
 )
 
 cloudformation.deploy_stack(stack=ECS_STACK)
@@ -57,7 +64,6 @@ if not cloudformation.stack_is_succesfully_deployed(stack_name=ECS_STACK["stack_
     raise DeployException(stack=ECS_STACK)
 
 stack_resources = cloudformation.describe_stack_resources(stack_name=ECS_STACK["stack_name"])
-print(stack_resources)
 for resource in stack_resources["StackResources"]:
     if resource["LogicalResourceId"] == "Service":
         service = resource["PhysicalResourceId"]

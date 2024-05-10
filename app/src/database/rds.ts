@@ -31,15 +31,15 @@ export class RDS {
 
     const uri = `${username}:${encodeURIComponent(password)}@${host}`;
     const database = CONFIGURATION.MICROSERVICE;
-    await this.createDatabase(uri, database);
+    if (CONFIGURATION.CREATE_DATABASE) await this.createDatabase(username, password, host, database);
 
     return `${protocol}://${uri}/${database}${query}`;
   }
 
-  async createDatabase(uri: string, database: string) {
-    const client = new Client({ connectionString: uri });
+  async createDatabase(user: string, password: string, host: string, database: string) {
+    const client = new Client({ user, password, host, database: 'postgres' });
     try {
-      console.log('🔧 Connecting to database:', uri);
+      console.log('🔧 Connecting to rds:', host);
       await client.connect();
       console.log('🔧 Creating database:', database);
       await client.query(`CREATE DATABASE ${database} IF NOT EXISTS ${database}`);
