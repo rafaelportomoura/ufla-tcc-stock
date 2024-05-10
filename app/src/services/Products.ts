@@ -32,7 +32,7 @@ export class Products {
 
   async productExist(product_id: Product['_id']): Promise<boolean> {
     try {
-      const product = await this.get(product_id, { status: 1 });
+      const product = await this.get(product_id, { _id: 1 });
       return PRODUCT_EXIST_STATUS.includes(product.status as (typeof PRODUCT_EXIST_STATUS)[number]);
     } catch (error) {
       if (error instanceof NotFoundError) return false;
