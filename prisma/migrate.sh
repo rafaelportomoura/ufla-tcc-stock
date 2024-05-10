@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "CREATE_DATABSE: $CREATE_DATABASE"
 
