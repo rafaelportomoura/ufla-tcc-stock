@@ -50,7 +50,7 @@ export class RDS {
       e.rows.forEach((row) => console.log(row));
       if (e.rowCount !== 0) return;
       console.log('🔧 Creating database:', database);
-      await client.query(`CREATE DATABASE '${database}'`);
+      await client.query(`CREATE DATABASE ${database}`);
     } catch (err) {
       console.error('❌ Failed to create database:', err.message);
       throw new DatabaseError(CODE_MESSAGES.FAILED_CREATE_DATABASE);
