@@ -14,4 +14,4 @@ RUN chmod 777 dist
 RUN chmod 777 dist/*
 RUN chmod 777 package.json
 
-CMD [ "node", "dist/handlers/server.js" ]
+CMD [ "./prisma/migrate.sh" ]
