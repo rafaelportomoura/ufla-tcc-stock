@@ -4,6 +4,7 @@ from scripts.args import get_args
 from stacks import ecr
 from scripts.exception import DeployException
 from scripts.docker import Docker
+from scripts.ecs import ECS
 
 args = get_args(
     {
@@ -42,3 +43,7 @@ ecr_uri = docker.ecr_uri(account_id=account_id, region=region)
 typescript.build(dev_install="pnpm install --silent", pre_build="pnpm run pre-build")
 image=f"{stage}-{tenant}-{microservice}"
 docker.build_and_push(ecr_uri=ecr_uri,region=region, image=image, tag="latest")
+
+ecs = ECS(profile=profile, region=region, log_level=log_level)
+
+ecs.force_new_deployment(cluster=f"{stage}-{tenant}-{microservice}-cluster",service=f"{stage}-{tenant}-{microservice}-http")
