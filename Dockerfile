@@ -14,5 +14,5 @@ ADD ["./dist", "dist"]
 RUN chmod 777 dist
 RUN chmod 777 dist/*
 RUN chmod 777 package.json
-
-CMD [ "/bin/bash", "prisma/migrate.sh" ]
+ENTRYPOINT [ "/bin/bash" ]
+CMD [ "prisma/migrate.sh" ]
