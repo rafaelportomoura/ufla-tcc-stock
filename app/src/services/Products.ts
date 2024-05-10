@@ -23,7 +23,7 @@ export class Products {
       const product = await this.api.get<Product>(product_id, project ? { project } : {});
       return product;
     } catch (error) {
-      this.logger.error(error, 'Products.get');
+      this.logger.error('Products.get', error.message, error);
       if (error.response.status === StatusCodes.NOT_FOUND) throw new NotFoundError(CODE_MESSAGES.PRODUCT_NOT_FOUND);
 
       throw new InternalServerError(CODE_MESSAGES.ERROR_CALLING_PRODUCT_API);
@@ -33,6 +33,7 @@ export class Products {
   async productExist(product_id: Product['_id']): Promise<boolean> {
     try {
       const product = await this.get(product_id, { _id: 1 });
+      this.logger.debug('Products.productExist', { product_id, product });
       return !isEmpty(product);
     } catch (error) {
       if (error instanceof NotFoundError) return false;
