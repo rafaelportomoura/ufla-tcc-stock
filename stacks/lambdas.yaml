@@ -29,8 +29,14 @@ Globals:
                 ACCOUNT_NUMBER: !Ref AWS::AccountId
                 MICROSERVICE: !Ref Microservice
                 EVENT_BUS: { "Fn::ImportValue": !Sub "${Stage}-${Tenant}-event-bus" }
-                RDS_SECRET: !Sub "${Stage}-${Tenant}-rds"
-                RDS_PARAMS: !Sub "${Stage}-${Tenant}-rds"
+                DATABASE_URL: 
+                      Fn::Sub: 
+                      - ${protocol}://${username}:${password}@${host}/${database}
+                      - protocol: !Sub '{{resolve:ssm:${Stage}-${Tenant}-rds:SecretString:protocol}}'
+                        username: !Sub '{{resolve:secretsmanager:${Stage}-${Tenant}-rds:SecretString:username}}'
+                        password: !Sub '{{resolve:secretsmanager:${Stage}-${Tenant}-rds:SecretString:password}}'
+                        host: !Sub '{{resolve:ssm:${Stage}-${Tenant}-rds:SecretString:host}}'
+                        database: !Ref Microservice
                 LOG_LEVEL: !Ref LogLevel
 
 Resources:
