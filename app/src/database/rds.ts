@@ -46,8 +46,11 @@ export class RDS {
     try {
       console.log('🔧 Connecting to rds:', host);
       await client.connect();
+      const e = await client.query(`SELECT 1 FROM pg_database WHERE datname='${database}'`);
+      e.rows.forEach((row) => console.log(row));
+      if (e.rowCount !== 0) return;
       console.log('🔧 Creating database:', database);
-      await client.query(`CREATE DATABASE '${database}' IF NOT EXISTS '${database}'`);
+      await client.query(`CREATE DATABASE '${database}'`);
     } catch (err) {
       console.error('❌ Failed to create database:', err.message);
       throw new DatabaseError(CODE_MESSAGES.FAILED_CREATE_DATABASE);
