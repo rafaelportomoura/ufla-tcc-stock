@@ -21,7 +21,8 @@ export async function getProductBalance(req: FastifyRequest, res: FastifyReply):
       logger
     });
 
-    return business.getBalance({ product_id });
+    const response = await business.getBalance({ product_id });
+    return response;
   } catch (error) {
     const response = error_handler(logger, error, 'getProductBalance');
     res.status(response.status);
