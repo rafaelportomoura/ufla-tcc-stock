@@ -22,7 +22,8 @@ export async function listBalance(req: FastifyRequest, res: FastifyReply): Promi
       logger
     });
 
-    return balance.list(query);
+    const response = await balance.list(query);
+    return response;
   } catch (error) {
     const response = error_handler(logger, error, 'listBalance');
     res.status(response.status);
