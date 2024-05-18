@@ -19,7 +19,7 @@ export async function authorizer(
   try {
     const token = headers ? (headers.authorization?.split(' ')[1] as string) : authorization_token.split(' ')[1];
 
-    const authorizer_business = new OAuthService({
+    const authorizer_business = new OAuthService('req', {
       baseURL: URLS(CONFIGURATION).OAUTH
     });
 

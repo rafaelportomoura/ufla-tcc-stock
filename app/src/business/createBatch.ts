@@ -15,9 +15,9 @@ export class CreateBatch {
 
   private event_bus: EventBus;
 
-  constructor({ prisma, logger, product_base_url, aws_params, event_bus }: CreateBatchArgs) {
+  constructor({ prisma, logger, product_base_url, aws_params, event_bus, request_id }: CreateBatchArgs) {
     this.batch_stock_repository = new BatchStockRepository(prisma);
-    this.product_service = new Products({ base_url: product_base_url, logger });
+    this.product_service = new Products({ base_url: product_base_url, logger, request_id });
     this.event_bus = new EventBus(logger, event_bus, aws_params);
   }
 

@@ -9,6 +9,7 @@ export type CreateBatchArgs = {
   logger: Logger;
   product_base_url: string;
   event_bus: string;
+  request_id: string;
 };
 
 export type CreateBatchResponse = CodeMessage & {

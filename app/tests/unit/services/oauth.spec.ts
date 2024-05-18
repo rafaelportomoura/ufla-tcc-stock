@@ -17,7 +17,7 @@ describe('Service -> OAuthService', () => {
   beforeEach(() => {
     sinon.restore();
     post = sinon.stub(Api.prototype, 'post');
-    oauth_service = new OAuthService(config);
+    oauth_service = new OAuthService('req', config);
   });
 
   it('should return valid token data when the token is valid', async () => {

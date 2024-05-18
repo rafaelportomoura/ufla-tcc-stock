@@ -13,9 +13,9 @@ export class Products {
 
   private logger: Logger;
 
-  constructor({ base_url, logger }: ProductsArgs) {
+  constructor({ base_url, logger, request_id }: ProductsArgs) {
     this.logger = logger;
-    this.api = new Api({ baseURL: base_url });
+    this.api = new Api(request_id, { baseURL: base_url });
   }
 
   async get(product_id: Product['_id'], project?: ProjectProduct): Promise<Product> {

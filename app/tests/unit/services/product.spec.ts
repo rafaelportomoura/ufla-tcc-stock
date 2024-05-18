@@ -16,7 +16,7 @@ describe('Service -> Product', async () => {
   beforeEach(() => {
     sinon.restore();
     api_get = sinon.stub(Api.prototype, 'get');
-    products = new Products({ base_url: 'base_url', logger: new Logger(LoggerLevel.silent, '') });
+    products = new Products({ base_url: 'base_url', logger: new Logger(LoggerLevel.silent, ''), request_id: 'req' });
   });
 
   it('Should get product', async () => {

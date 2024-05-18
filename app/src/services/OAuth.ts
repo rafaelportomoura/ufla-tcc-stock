@@ -8,8 +8,8 @@ import { ValidateToken } from '../types/ValidateToken';
 export class OAuthService {
   private client: Api;
 
-  constructor(config: AxiosRequestConfig) {
-    this.client = new Api(config);
+  constructor(request_id: string, config: AxiosRequestConfig) {
+    this.client = new Api(request_id, config);
   }
 
   async validateToken(token: string): Promise<ValidateToken> {

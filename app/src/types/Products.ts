@@ -3,6 +3,7 @@ import { Logger } from '../adapters/logger';
 export type ProductsArgs = {
   base_url: string;
   logger: Logger;
+  request_id: string;
 };
 export type Product = {
   _id: string;
