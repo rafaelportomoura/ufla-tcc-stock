@@ -6,7 +6,7 @@ import { SNSEventRecord, SQSRecord } from 'aws-lambda';
 export const sqs_request_id = ({ attributes, messageId, body }: SQSRecord): string => {
   try {
     const { MessageId } = JSON.parse(body) as SNSEventRecord['Sns'];
-    return MessageId;
+    return MessageId ?? attributes?.MessageDeduplicationId ?? messageId;
   } catch (error) {
     return attributes?.MessageDeduplicationId ?? messageId;
   }
