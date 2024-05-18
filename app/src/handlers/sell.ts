@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { PrismaClient } from '@prisma/client';
 import { SNSEventRecord, SQSEvent } from 'aws-lambda';
 import { Logger } from '../adapters/logger';
+import { PrismaStatic } from '../adapters/prisma';
 import { Validator } from '../adapters/validate';
 import { aws_params } from '../aws/config';
 import { Sell } from '../business/sell';
@@ -10,7 +10,7 @@ import { sell_schema } from '../schemas/sell';
 import { sqs_request_id } from '../utils/sqs_id';
 
 export async function sell(event: SQSEvent): Promise<void> {
-  const prisma = new PrismaClient();
+  const prisma = PrismaStatic.create();
   const record = event.Records[0];
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, sqs_request_id(record));
   try {
