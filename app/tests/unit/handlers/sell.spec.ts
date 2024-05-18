@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { PrismaStatic } from '../../../src/adapters/prisma';
-import { ReturnToStock } from '../../../src/business/returnToStock';
+import { Sell } from '../../../src/business/sell';
 import { sell } from '../../../src/handlers/sell';
 import { SqsData } from '../../data/sqs';
 
@@ -12,7 +12,7 @@ describe('Handlers -> Sell', async () => {
   const sqs = (body: unknown) => sell({ Records: [SqsData.record(body)] });
   beforeEach(() => {
     sinon.restore();
-    return_to_stock_stub = sinon.stub(ReturnToStock.prototype, 'return');
+    return_to_stock_stub = sinon.stub(Sell.prototype, 'sell');
     sinon.stub(PrismaStatic, 'create').returns({ $connect() {}, $disconnect() {} } as any);
   });
   it('should sell stock', async () => {
