@@ -2,7 +2,7 @@ import { SQSRecord } from 'aws-lambda';
 import { expect } from 'chai';
 import { sqs_request_id } from '../../../src/utils/sqs_id';
 
-describe('Utils -> sqsId', async () => {
+describe('Utils -> SqsId', async () => {
   it('Should be messageId at catch', async () => {
     const result = sqs_request_id({ messageId: 'OK' } as SQSRecord);
     expect(result).equal('OK');

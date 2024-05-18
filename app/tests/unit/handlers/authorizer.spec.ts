@@ -26,7 +26,8 @@ describe('Handlers -> Authorizer', () => {
       methodArn: method_arn
     } as unknown as APIGatewayRequestAuthorizerEvent;
     context = {} as Context;
-
+    sinon.restore();
+    sinon.stub(console, 'log');
     oauth_service_stub = sinon.stub(OAuthService.prototype, 'validateToken');
   });
 
