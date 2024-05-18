@@ -24,7 +24,7 @@ describe('Business -> ListStock', async () => {
     list.resolves(stock);
     count.resolves(1);
     const result = await list_stock.list(params);
-    expect(result).deep.equal({ page: 1, pages: 1, count: 1, products_stock: stock });
+    expect(result).deep.equal({ page: 1, pages: 1, count: 1, stocks: stock });
   });
 
   it('should not list stock', async () => {
