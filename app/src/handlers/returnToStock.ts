@@ -25,7 +25,7 @@ export async function returnToStock(event: SQSEvent): Promise<void> {
     if ((body as SNSEventRecord['Sns']).TopicArn) body = JSON.parse(body.Message);
     const { stock_ids } = await Validator.validate(JSON.parse(body), return_to_stock);
 
-    await business.sell(stock_ids);
+    await business.return(stock_ids);
   } catch (error) {
     logger.error(error, 'Handler');
     throw error;

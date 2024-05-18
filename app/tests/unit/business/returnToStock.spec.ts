@@ -22,7 +22,7 @@ describe('Business -> return_to_stock', async () => {
     const stocks = { product_id: '1', quantity: 1 };
     return_to_stock_stub.resolves(stocks);
     pub.resolves();
-    const result = await return_to_stock.sell(stock_ids);
+    const result = await return_to_stock.return(stock_ids);
     expect(result).deep.equal(undefined);
     expect(pub.args[0][0]).deep.equal({ stocks });
   });

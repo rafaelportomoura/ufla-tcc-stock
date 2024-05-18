@@ -14,7 +14,7 @@ export class ReturnToStock {
     this.event_bus = new EventBus(logger, event_bus, aws_params);
   }
 
-  async sell(stock_ids: Array<Stock['id']>) {
+  async return(stock_ids: Array<Stock['id']>) {
     const stocks = await this.stock_repository.returnToStock(stock_ids);
 
     const event_attributes = this.event_bus.messageAttributes(EVENT_TYPE.RETURN_TO_STOCK, EVENT_STATUS.SUCCESS);
