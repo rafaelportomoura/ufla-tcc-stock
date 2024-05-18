@@ -22,7 +22,8 @@ export async function listStock(req: FastifyRequest, res: FastifyReply): Promise
       logger
     });
 
-    return balance.list(query);
+    const response = await balance.list(query);
+    return response;
   } catch (error) {
     const response = error_handler(logger, error, 'createBatch');
     res.status(response.status);
