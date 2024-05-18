@@ -17,7 +17,7 @@ export class Api {
     if (!isEmpty(query_parameters)) path += `?${qs.stringify(query_parameters)}`;
 
     const response = await this.caller.get<T>(path, {
-      headers: { requestId: this.request_id, request_id: this.request_id }
+      headers: { request_id: this.request_id }
     });
 
     return response.data;
@@ -25,7 +25,7 @@ export class Api {
 
   async post<T>(path: string, body: Record<string, unknown>): Promise<T> {
     const response = await this.caller.post<T>(path, body, {
-      headers: { requestId: this.request_id, request_id: this.request_id }
+      headers: { request_id: this.request_id }
     });
 
     return response.data;
