@@ -9,6 +9,7 @@ describe('Business -> getBalance', async () => {
   let get_balance;
 
   beforeEach(() => {
+    sinon.restore();
     stock_repository = sinon.stub(StockRepository.prototype, 'getBalance');
     get_balance = new GetBalance({ prisma: {} } as any);
   });
