@@ -22,7 +22,7 @@ describe('Business -> listBalance', async () => {
     get_balance.resolves(balance);
     count_distinct.resolves(1);
     const result = await list_balance.list(params);
-    expect(result).deep.equal({ page: 1, pages: 1, count: 1, products_balance: result });
+    expect(result).deep.equal({ page: 1, pages: 1, count: 1, products_balance: balance });
   });
   it('should not list balance', async () => {
     const params = { page: 2, size: 10 };
