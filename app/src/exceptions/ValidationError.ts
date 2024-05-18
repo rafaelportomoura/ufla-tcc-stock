@@ -1,11 +1,13 @@
-import { z } from 'zod';
 import { CODE_MESSAGES } from '../constants/codeMessages';
 import { BadRequestError } from './BadRequestError';
 
-export class ValidationError<T> extends BadRequestError {
-  constructor(private issues: z.ZodFormattedError<T, string>) {
+export class ValidationError extends BadRequestError {
+  issues: unknown;
+
+  constructor(issues: unknown) {
     super(CODE_MESSAGES.VALIDATION_ERROR);
     this.name = 'ValidationError';
+    this.issues = issues;
   }
 
   toJSON() {

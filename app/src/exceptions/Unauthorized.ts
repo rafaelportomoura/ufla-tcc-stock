@@ -6,5 +6,6 @@ import { BaseError } from './BaseError';
 export class UnauthorizedError extends BaseError {
   constructor(code_message: CodeMessage = CODE_MESSAGES.UNAUTHORIZED) {
     super(code_message, StatusCodes.UNAUTHORIZED);
+    this.name = this.constructor.name;
   }
 }

@@ -9,5 +9,6 @@ export class ForbiddenError extends BaseError {
   constructor(decoded_token: any) {
     super(CODE_MESSAGES.FORBIDDEN, StatusCodes.FORBIDDEN);
     this.sub = decoded_token.sub;
+    this.name = this.constructor.name;
   }
 }

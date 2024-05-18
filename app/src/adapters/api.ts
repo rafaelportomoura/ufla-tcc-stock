@@ -16,4 +16,10 @@ export class Api {
 
     return response.data;
   }
+
+  async post<T>(path: string, body: Record<string, unknown>): Promise<T> {
+    const response = await this.caller.post<T>(path, body);
+
+    return response.data;
+  }
 }

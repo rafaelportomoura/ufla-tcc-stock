@@ -17,6 +17,7 @@ Parameters:
           - info
           - verbose
           - debug
+          - silent
 Globals:
     Function:
         Timeout: 60
