@@ -27,8 +27,8 @@ describe('Adapter -> Api', async () => {
   });
   it('should call get method with query string', async () => {
     get_stub.resolves({ data: 'data' });
-    const response = await api.get('url', { a: 'b' });
+    const response = await api.get('', { a: 'b' });
     expect(response).deep.equal('data');
-    expect(get_stub.args[0][0]).deep.equal('url?a=b');
+    expect(get_stub.args[0][0]).deep.equal('?a=b');
   });
 });
