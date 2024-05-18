@@ -21,7 +21,8 @@ export async function getBatchBalance(req: FastifyRequest, res: FastifyReply): P
       logger
     });
 
-    return business.getBalance({ batch_id });
+    const response = await business.getBalance({ batch_id });
+    return response;
   } catch (error) {
     const response = error_handler(logger, error, 'getBatchBalance');
     res.status(response.status);
