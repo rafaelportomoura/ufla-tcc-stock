@@ -18,7 +18,7 @@ export async function sell(event: SQSEvent): Promise<void> {
     const business = new Sell({ prisma, logger, event_bus: CONFIGURATION.EVENT_BUS, aws_params: aws_params() });
     let body = JSON.parse(record.body);
     if ((body as SNSEventRecord['Sns']).TopicArn) body = JSON.parse(body.Message);
-    const { stock_ids } = await Validator.validate(JSON.parse(body), sell_schema);
+    const { stock_ids } = await Validator.validate(body, sell_schema);
 
     await business.sell(stock_ids);
   } catch (error) {

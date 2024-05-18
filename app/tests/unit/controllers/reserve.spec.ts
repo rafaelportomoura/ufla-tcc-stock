@@ -20,8 +20,8 @@ describe('Controller -> Reserve', async () => {
     const stock = { product_id: '1', quantity: 1 };
     reserve_stock.resolves(stock);
     const response = await handler({ products: { '1': 1 } });
-    expect(res.status.args).deep.equal([]);
-    expect(response).deep.equal(stock);
+    expect(res.status.args).deep.equal([[201]]);
+    expect(response).deep.equal({ ...CODE_MESSAGES.RESERVED, reserves: stock });
   });
   it('should not reserve stock', async () => {
     reserve_stock.rejects(new Error());

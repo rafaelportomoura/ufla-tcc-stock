@@ -23,7 +23,7 @@ export async function returnToStock(event: SQSEvent): Promise<void> {
     });
     let body = JSON.parse(record.body);
     if ((body as SNSEventRecord['Sns']).TopicArn) body = JSON.parse(body.Message);
-    const { stock_ids } = await Validator.validate(JSON.parse(body), return_to_stock);
+    const { stock_ids } = await Validator.validate(body, return_to_stock);
 
     await business.return(stock_ids);
   } catch (error) {
