@@ -41,14 +41,7 @@ Parameters:
         Description: Target Group Arn
     ImageTag: 
         Type: String
-        Default: latest
-    MigrateDatabase:
-        Type: String
-        Default: false
-        AllowedValues:
-            - true
-            - false
-    
+        Default: latest    
 
 Conditions:
     isProd: !Equals [!Ref Stage, prod]
@@ -236,8 +229,6 @@ Resources:
                         database: !Ref Microservice
                   - Name: EVENT_BUS
                     Value: { "Fn::ImportValue": !Sub "${Stage}-${Tenant}-event-bus" }
-                  - Name: MIGRATE_DATABASE
-                    Value: !Ref MigrateDatabase
                 Image: !Sub 
                   - "${uri}:${tag}"
                   - uri: {"Fn::ImportValue": !Sub "${Stage}-${Tenant}-${Microservice}-ecr-repository-uri"}
@@ -337,7 +328,7 @@ Resources:
     #  AUTO SCALING
     # -----------------------------------------------------------
 
-    AutoScalingRole:
+AutoScalingRole:
         Type: AWS::IAM::Role
         Properties:
             RoleName: !Sub ${Stage}-${Tenant}-${Microservice}-auto-scaling-role

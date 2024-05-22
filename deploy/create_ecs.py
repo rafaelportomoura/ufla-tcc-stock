@@ -17,7 +17,6 @@ args = get_args(
         "scale_in_cooldown": {"type": "int", "required": False, "default": 60},
         "cpu_utilization": {"type": "int", "required": False, "default": 40},
         "log_level_compute": {"type": "str", "required": False, "default": "debug"},
-        "migrate_database": {"type": "str", "required": False, "default": "false"},
     }
 )
 
@@ -37,15 +36,6 @@ exports = cloudformation.list_exports()
 target = cloudformation.get_export_value(
     exports=exports, name=f"{stage}-{tenant}-{microservice}-target-group-arn"
 )
-migrate_database = args["migrate_database"]
-if migrate_database == "false":
-    try:
-        stack = cloudformation.describe(stack_name=ecs.my_stack_name(stage=stage, tenant=tenant))
-        has_stacks = "Stacks" in stack
-        if not has_stacks or len(stack["Stacks"]) == 0:
-            migrate_database = 'true'
-    except:
-        migrate_database = 'true'
 
 ECS_STACK = ecs.stack(
     stage=stage,
@@ -58,7 +48,6 @@ ECS_STACK = ecs.stack(
     scale_in_cooldown=args["scale_in_cooldown"],
     cpu_utilization=args["cpu_utilization"],
     target_group=target,
-    migrate_database=migrate_database
 )
 
 cloudformation.deploy_stack(stack=ECS_STACK)

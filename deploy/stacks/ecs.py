@@ -17,7 +17,6 @@ def stack(
     scale_in_cooldown: int,
     cpu_utilization: int,
     target_group: str,
-    migrate_database: str,
     ) -> Stack:
     return Stack(
         template=path("stacks", "ecs.yaml"),
@@ -33,6 +32,5 @@ def stack(
             "ScaleInCooldown": scale_in_cooldown,
             "CPUUtilization": cpu_utilization,
             "TargetGroupArn": target_group,
-            "MigrateDatabase": migrate_database,
         },
     )
