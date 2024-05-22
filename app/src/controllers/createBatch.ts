@@ -24,7 +24,8 @@ export async function createBatch(req: FastifyRequest, res: FastifyReply): Promi
       prisma: PrismaStatic.create(),
       logger,
       product_base_url: URLS(CONFIGURATION).PRODUCTS,
-      event_bus: CONFIGURATION.EVENT_BUS
+      event_bus: CONFIGURATION.EVENT_BUS,
+      request_id: request_id(req)
     });
 
     const {
