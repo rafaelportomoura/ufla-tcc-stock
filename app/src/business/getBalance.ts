@@ -5,8 +5,8 @@ import { Stock } from '../types/Stock';
 export class GetBalance {
   private stock_repository: StockRepository;
 
-  constructor({ prisma }: GetBalanceArgs) {
-    this.stock_repository = new StockRepository(prisma);
+  constructor({ prisma, logger }: GetBalanceArgs) {
+    this.stock_repository = new StockRepository(prisma, logger);
   }
 
   async getBalance(where: Partial<Stock>): Promise<Balance> {
