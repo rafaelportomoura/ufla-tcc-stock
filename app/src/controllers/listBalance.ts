@@ -12,7 +12,10 @@ import { ListBalanceResponse } from '../types/ListBalance';
 import { request_id } from '../utils/requestId';
 import { decodeObject } from '../utils/uriDecodeComponent';
 
-export async function listBalance(req: FastifyRequest, res: FastifyReply): Promise<ListBalanceResponse | BaseError> {
+export async function listBalance(
+  req: FastifyRequest,
+  res: FastifyReply
+): Promise<ListBalanceResponse | ReturnType<BaseError['toJSON']>> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
     const query = await Validator.validate(decodeObject(req.query), list_balance_schema);
@@ -27,6 +30,6 @@ export async function listBalance(req: FastifyRequest, res: FastifyReply): Promi
   } catch (error) {
     const response = error_handler(logger, error, 'listBalance');
     res.status(response.status);
-    return response;
+    return response.toJSON();
   }
 }

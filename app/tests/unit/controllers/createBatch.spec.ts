@@ -26,8 +26,7 @@ describe('Controller -> createBatch', () => {
     (req.body as Record<string, unknown>).product_id = undefined;
     const result = await createBatch(req as FastifyRequest, fastify_reply(res));
 
-    expect(result).instanceOf(ValidationError);
-    expect(result).deep.equal(new ValidationError({ product_id: ['required'] }));
+    expect(result).deep.equal(new ValidationError({ product_id: ['Required'] }).toJSON());
     expect(res.status.calledWith(StatusCodes.BAD_REQUEST)).equal(true);
   });
 

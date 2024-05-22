@@ -11,7 +11,10 @@ import { product_id_schema } from '../schemas/productId';
 import { Balance } from '../types/Balance';
 import { request_id } from '../utils/requestId';
 
-export async function getProductBalance(req: FastifyRequest, res: FastifyReply): Promise<Balance | BaseError> {
+export async function getProductBalance(
+  req: FastifyRequest,
+  res: FastifyReply
+): Promise<Balance | ReturnType<BaseError['toJSON']>> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
     const { product_id } = await Validator.validate(req.params, product_id_schema);
@@ -26,6 +29,6 @@ export async function getProductBalance(req: FastifyRequest, res: FastifyReply):
   } catch (error) {
     const response = error_handler(logger, error, 'getProductBalance');
     res.status(response.status);
-    return response;
+    return response.toJSON();
   }
 }

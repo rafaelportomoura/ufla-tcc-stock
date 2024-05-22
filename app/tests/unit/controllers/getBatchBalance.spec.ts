@@ -33,6 +33,6 @@ describe('Controller -> getBatchBalance', async () => {
     get_batch_balance.rejects(new Error());
     const response = await getBatchBalance(req, fastify_reply(res));
     expect(res.status.args).deep.equal([[500]]);
-    expect(response).deep.equal(new InternalServerError(CODE_MESSAGES.INTERNAL_SERVER_ERROR));
+    expect(response).deep.equal(new InternalServerError(CODE_MESSAGES.INTERNAL_SERVER_ERROR).toJSON());
   });
 });

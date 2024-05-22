@@ -12,7 +12,10 @@ import { ListStockResponse } from '../types/ListStock';
 import { request_id } from '../utils/requestId';
 import { decodeObject } from '../utils/uriDecodeComponent';
 
-export async function listStock(req: FastifyRequest, res: FastifyReply): Promise<ListStockResponse | BaseError> {
+export async function listStock(
+  req: FastifyRequest,
+  res: FastifyReply
+): Promise<ListStockResponse | ReturnType<BaseError['toJSON']>> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
     const query = await Validator.validate(decodeObject(req.query), list_stock_query);
@@ -27,6 +30,6 @@ export async function listStock(req: FastifyRequest, res: FastifyReply): Promise
   } catch (error) {
     const response = error_handler(logger, error, 'createBatch');
     res.status(response.status);
-    return response;
+    return response.toJSON();
   }
 }

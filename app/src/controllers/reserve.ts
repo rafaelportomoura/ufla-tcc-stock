@@ -12,7 +12,10 @@ import { reserve_schema } from '../schemas/reserve';
 import { ReserveResponse } from '../types/Reserve';
 import { request_id } from '../utils/requestId';
 
-export async function reserve(req: FastifyRequest, res: FastifyReply): Promise<ReserveResponse | BaseError> {
+export async function reserve(
+  req: FastifyRequest,
+  res: FastifyReply
+): Promise<ReserveResponse | ReturnType<BaseError['toJSON']>> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
     const body = await Validator.validate(req.body, reserve_schema);
@@ -34,6 +37,6 @@ export async function reserve(req: FastifyRequest, res: FastifyReply): Promise<R
   } catch (error) {
     const response = error_handler(logger, error, 'reserve');
     res.status(response.status);
-    return response;
+    return response.toJSON();
   }
 }

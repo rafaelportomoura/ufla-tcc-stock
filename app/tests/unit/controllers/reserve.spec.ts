@@ -27,6 +27,6 @@ describe('Controller -> Reserve', async () => {
     reserve_stock.rejects(new Error());
     const response = await handler({ products: { '1': 1 } });
     expect(res.status.args).deep.equal([[500]]);
-    expect(response).deep.equal(new InternalServerError(CODE_MESSAGES.INTERNAL_SERVER_ERROR));
+    expect(response).deep.equal(new InternalServerError(CODE_MESSAGES.INTERNAL_SERVER_ERROR).toJSON());
   });
 });

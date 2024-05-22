@@ -11,7 +11,10 @@ import { batch_id_schema } from '../schemas/batchId';
 import { Balance } from '../types/Balance';
 import { request_id } from '../utils/requestId';
 
-export async function getBatchBalance(req: FastifyRequest, res: FastifyReply): Promise<Balance | BaseError> {
+export async function getBatchBalance(
+  req: FastifyRequest,
+  res: FastifyReply
+): Promise<Balance | ReturnType<BaseError['toJSON']>> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
     const { batch_id } = await Validator.validate(req.params, batch_id_schema);
@@ -26,6 +29,6 @@ export async function getBatchBalance(req: FastifyRequest, res: FastifyReply): P
   } catch (error) {
     const response = error_handler(logger, error, 'getBatchBalance');
     res.status(response.status);
-    return response;
+    return response.toJSON();
   }
 }

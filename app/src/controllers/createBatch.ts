@@ -14,7 +14,10 @@ import { create_batch_schema } from '../schemas/addBatch';
 import { CreateBatchResponse } from '../types/CreateBatch';
 import { request_id } from '../utils/requestId';
 
-export async function createBatch(req: FastifyRequest, res: FastifyReply): Promise<CreateBatchResponse | BaseError> {
+export async function createBatch(
+  req: FastifyRequest,
+  res: FastifyReply
+): Promise<CreateBatchResponse | ReturnType<BaseError['toJSON']>> {
   const logger = new Logger(CONFIGURATION.LOG_LEVEL, request_id(req));
   try {
     const body = await Validator.validate(req.body, create_batch_schema);
@@ -40,6 +43,6 @@ export async function createBatch(req: FastifyRequest, res: FastifyReply): Promi
   } catch (error) {
     const response = error_handler(logger, error, 'createBatch');
     res.status(response.status);
-    return response;
+    return response.toJSON();
   }
 }
