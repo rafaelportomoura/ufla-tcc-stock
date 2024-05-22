@@ -6,8 +6,8 @@ import { ListBalanceArgs, ListBalanceParams, ListBalanceResponse } from '../type
 export class ListBalance {
   private stock_repository: StockRepository;
 
-  constructor({ prisma }: ListBalanceArgs) {
-    this.stock_repository = new StockRepository(prisma);
+  constructor({ prisma, logger }: ListBalanceArgs) {
+    this.stock_repository = new StockRepository(prisma, logger);
   }
 
   async list({ page, size }: ListBalanceParams): Promise<ListBalanceResponse> {

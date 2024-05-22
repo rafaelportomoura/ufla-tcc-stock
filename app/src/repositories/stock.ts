@@ -2,6 +2,7 @@ import { Prisma, PrismaClient, StockStatus } from '@prisma/client';
 import { Balance, ProductBalance } from '../types/Balance';
 import { ListStockPagination } from '../types/ListStock';
 /* eslint-disable no-empty-function */
+import { Logger } from '../adapters/logger';
 import { ReserveError } from '../exceptions/ReserveError';
 import { ReserveOutputs, ReserveParams } from '../types/Reserve';
 import { Stock, StockIdentifier } from '../types/Stock';
@@ -9,7 +10,10 @@ import { Stock, StockIdentifier } from '../types/Stock';
 export class StockRepository {
   private stock_delegate: Prisma.StockDelegate;
 
-  constructor(private client: PrismaClient) {
+  constructor(
+    private client: PrismaClient,
+    private logger: Logger
+  ) {
     this.stock_delegate = client.stock;
   }
 
@@ -52,7 +56,7 @@ export class StockRepository {
       }));
 
       const products_in_fault = products_stocks.filter(({ stock_ids, quantity }) => stock_ids.length < quantity);
-
+      this.logger.debug('products_in_fault', products_in_fault);
       if (products_in_fault.length) {
         throw new ReserveError(products_in_fault.map(({ product_id }) => product_id));
       }
@@ -69,7 +73,7 @@ export class StockRepository {
       const when_reserve_products_in_fault = reserves.filter(
         (reserve, index) => reserve.count < products_stocks[index].quantity
       );
-
+      this.logger.debug('when_reserve_products_in_fault', when_reserve_products_in_fault);
       if (when_reserve_products_in_fault.length) {
         throw new ReserveError(when_reserve_products_in_fault.map((_, index) => products_ids[index]));
       }

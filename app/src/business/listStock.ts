@@ -6,8 +6,8 @@ import { ListStockArgs, ListStockParams, ListStockResponse } from '../types/List
 export class ListStock {
   private stock_repository: StockRepository;
 
-  constructor({ prisma }: ListStockArgs) {
-    this.stock_repository = new StockRepository(prisma);
+  constructor({ prisma, logger }: ListStockArgs) {
+    this.stock_repository = new StockRepository(prisma, logger);
   }
 
   async list({ page, size, ...query }: ListStockParams): Promise<ListStockResponse> {

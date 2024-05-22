@@ -9,7 +9,7 @@ export class ReserveStock {
   private event_bus: EventBus;
 
   constructor({ prisma, logger, event_bus, aws_params }: ReserveArgs) {
-    this.stock_repository = new StockRepository(prisma);
+    this.stock_repository = new StockRepository(prisma, logger);
     this.event_bus = new EventBus(logger, event_bus, aws_params);
   }
 
