@@ -71,6 +71,7 @@ Resources:
                           - lambda:PublishVersion
                           - lambda:InvokeFunction
                           - apigateway:*
+                          - sns:Publish
                         Resource: "*"
             Tags:
               - Key: Service
