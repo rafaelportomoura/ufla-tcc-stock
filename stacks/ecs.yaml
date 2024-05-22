@@ -328,7 +328,7 @@ Resources:
     #  AUTO SCALING
     # -----------------------------------------------------------
 
-AutoScalingRole:
+    AutoScalingRole:
         Type: AWS::IAM::Role
         Properties:
             RoleName: !Sub ${Stage}-${Tenant}-${Microservice}-auto-scaling-role
