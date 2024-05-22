@@ -255,7 +255,7 @@ Resources:
             FunctionName: !Sub ${Stage}-${Tenant}-${Microservice}-sell
             Role: !GetAtt LambdaRole.Arn
             CodeUri: ./../
-            Handler: dist/handlers/returnToStock.returnToStock
+            Handler: dist/handlers/sell.sell
             VpcConfig:
                 SubnetIds: !Split [',', {'Fn::ImportValue': !Sub "${Stage}-${Tenant}-private-subnets-list"}]
                 SecurityGroupIds: 
