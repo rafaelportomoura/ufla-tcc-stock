@@ -16,7 +16,7 @@ export class ListStock {
     const take = size + skip;
     const pages = Math.ceil(count / size);
 
-    if (skip > count - 1) throw new NotFoundError(CODE_MESSAGES.INVALID_PAGE);
+    if (skip > count - 1 && page > 1) throw new NotFoundError(CODE_MESSAGES.INVALID_PAGE);
 
     const stocks = await this.stock_repository.listStock(query, { skip, take });
 
